@@ -1,2 +1,2 @@
-# biserkan.github.io
+# eduhow.github.io
 Serkan's projes
