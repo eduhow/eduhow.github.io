@@ -1,0 +1,397 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+:root {
+  --page-padding-h: 5mm;
+  --page-padding-v: 5mm;
+}
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-zinc-200: oklch(0.7 0 0);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --font-sans: "Inter", sans-serif;
+}
+:root {
+  --page-padding-h: 5mm;
+  --page-padding-v: 5mm;
+  --radius: 0.325rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  /* ~slate-600/700 — shadcn default butonlar saf siyah görünmesin */
+  --primary: oklch(0.45 0.04 264);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.45 0.04 264);
+  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50 antialiased;
+    font-family: var(--font-sans);
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* ─── Print Styles ─────────────────────────────────────────────────────────── */
+
+@page {
+  size: A4;
+  margin: 0;
+}
+
+@media print {
+  /* Force exact colors / images */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Reset html & body */
+  html,
+  body {
+    width: 210mm !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: white !important;
+    background-color: white !important;
+  }
+
+  /* Hide everything */
+  body * {
+    visibility: hidden !important;
+  }
+
+  /* Show only the print area */
+  .a4-print-area,
+  .a4-print-area * {
+    visibility: visible !important;
+  }
+
+  /* Pin print area to top-left corner */
+  .a4-print-area {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 210mm !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: block !important;
+    background: white !important;
+    gap: 0 !important;
+  }
+
+  /* Each A4 page */
+  .a4-page {
+    width: 210mm !important;
+    height: 297mm !important;
+    min-height: 297mm !important;
+    margin: 0 !important;
+    padding: var(--page-padding-v, 5mm) var(--page-padding-h, 5mm) !important;
+    box-shadow: none !important;
+    border: none !important;
+    background: white !important;
+    background-color: white !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  /* Last page — no extra blank page */
+  .a4-page:last-child {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  /* Hide all interactive / UI elements */
+  .floating-action-menu,
+  .upload-btn,
+  [data-print-hidden],
+  button:not(.a4-print-area button[style*="display"]) {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  /* Ensure images print */
+  img {
+    display: block !important;
+    max-width: 100% !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Kill any tooltip / overlay artifacts */
+  [role="tooltip"],
+  [data-radix-popper-content-wrapper] {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  /* Hide contentEditable hover border in print */
+  .a4-print-area [contenteditable] {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Hide add-block-zone in print */
+  .add-block-zone {
+    display: none !important;
+  }
+}
+
+/* ─── PDF Generation Styles ────────────────────────────────────────────────── */
+
+/* Block remove animation - Güzel fade-out ve slide-up */
+.block-removing {
+  opacity: 0;
+  transform: translateY(-30px) scale(0.92);
+  height: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  border-top-width: 0 !important;
+  border-bottom-width: 0 !important;
+  pointer-events: none;
+  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Diğer blokların yukarı kayması için */
+.block-removing + * {
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Upload arrow animation */
+@keyframes upload-arrow {
+  0%   { transform: translateY(0); }
+  30%  { transform: translateY(-3px); }
+  60%  { transform: translateY(0); }
+  80%  { transform: translateY(-1.5px); }
+  100% { transform: translateY(0); }
+}
+
+.upload-btn:hover .upload-icon {
+  animation: upload-arrow 1.2s ease-in-out infinite;
+}
+
+/* Hide interactive elements when html-to-image is capturing */
+body.pdf-generating .upload-btn,
+body.pdf-generating .add-block-zone,
+body.pdf-generating .add-answer-key-zone,
+body.pdf-generating .cursor-s-resize,
+body.pdf-generating .cursor-ns-resize {
+  display: none !important;
+}
+
+/* Kullanıcı isteği: Belirginleştirme Efekti (Highlight Glow) */
+@keyframes highlight-pulse-glow {
+  0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.5); border-color: rgba(59, 130, 246, 0.4); }
+  50% { box-shadow: 0 0 15px 5px rgba(59, 130, 246, 0.3); border-color: rgba(59, 130, 246, 0.8); }
+  100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.5); border-color: rgba(59, 130, 246, 0.4); }
+}
+
+.highlight-active {
+  animation: highlight-pulse-glow 1.5s infinite ease-in-out !important;
+  background-color: rgba(59, 130, 246, 0.05) !important;
+  border-radius: 0 !important;
+  transition: all 0.3s ease !important;
+  z-index: 40 !important;
+  cursor: s-resize !important;
+}
+
+/* Sihirli Yıldız Animasyonu (OCR Butonu İçin) */
+@keyframes sparkle-magic {
+  0% { transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 0 rgba(255, 255, 255, 0)); }
+  25% { transform: scale(1.2) rotate(-15deg); filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8)); }
+  50% { transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 0 rgba(255, 255, 255, 0)); }
+  75% { transform: scale(1.2) rotate(15deg); filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8)); }
+  100% { transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 0 rgba(255, 255, 255, 0)); }
+}
+
+.animate-sparkle-magic {
+  animation: sparkle-magic 2s infinite ease-in-out;
+  display: inline-block;
+}
+
+.hover\\:animate-sparkle-magic:hover {
+  animation: sparkle-magic 1s infinite ease-in-out;
+}
+
+.group:hover .group-hover-sparkle {
+  animation: sparkle-magic 1s infinite ease-in-out;
+}
+
+/* Yazıcı/PDF'de gizlenecek elementler */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* Kullanıcı isteği: mt-1 altındaki metin alanlarına özel kesikli kenarlık ve hover efekti (SADECE EKRANDA GÖRÜNÜR) */
+@media screen {
+  .mt-1 > div > div {
+    border: 2px dashed #cad5e2  !important;
+  }
+
+  .mt-1 > div > div:hover {
+    border: 2px dashed #90a1b9  !important;
+  }
+}
+
+.pdf-generating .mt-1 > div > div,
+.preview-mode .mt-1 > div > div {
+  border: none !important;
+}
+
+.text-xs {
+  line-height: 15px !important;
+}
+
+.py-\[10px\] {
+  padding-block: 7px !important;
+}
+
+.pdf-generating .print\:hidden {
+  display: none !important;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out forwards;
+}
+
+.preview-mode .a4-print-area .print\:hidden,
+.preview-mode .a4-page .print\:hidden {
+  display: none !important;
+}
+
+.preview-mode .a4-print-area .preview-hidden,
+.preview-mode .a4-page .preview-hidden,
+.preview-mode .a4-print-area .preview-hidden-empty,
+.preview-mode .a4-page .preview-hidden-empty {
+  display: none !important;
+}
+
+.preview-mode .floating-action-menu,
+.preview-mode .fixed.top-6.right-6 {
+  display: none !important;
+}
