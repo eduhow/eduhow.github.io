@@ -67,14 +67,12 @@ export function ImageCropperModal({ open, imageSrc, onClose, onCropComplete }: I
         let width = 342;
         let height = 160;
 
-        if (completedCrop) {
-          // Kırpma yapıldı
+        if (completedCrop && completedCrop.width > 0 && completedCrop.height > 0) {
           const result = getCroppedImg(imgRef.current, completedCrop);
           base64 = result.base64;
           width = result.width;
           height = result.height;
         } else {
-          // Kırpma yapılmadı - orijinal resmin boyutlarını hesapla
           width = imgRef.current.naturalWidth;
           height = imgRef.current.naturalHeight;
         }
