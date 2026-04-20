@@ -1,4 +1,5 @@
 import A4Template from "@/components/A4Template";
+import { MobileWarning } from "@/components/MobileWarning";
 
 function App() {
   return (
