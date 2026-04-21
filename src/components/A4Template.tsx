@@ -1530,9 +1530,9 @@ export default function A4Template() {
               onMouseEnter={() => setIsHighlighting(true)}
               onMouseLeave={() => setIsHighlighting(false)}
             >
-              O bölümleri gör
+              Bölümleri gör
             </span>
-            ). Çizgileri kalınlaştırabilir, soru alanını daraltabilirsiniz. <strong>Yükleyeceğiniz resimlerdeki soruları otomatik olarak yazıya dönüştürebilirsiniz.</strong>
+            ). Üye olmadan <strong>resim yükleme, resim kırma, resimlerdeki soruları otomatik olarak yazıya dönüştüme</strong>, pdf alma işlemleri yapabilirsiniz.
           </p>
         </div>
       )}
