@@ -765,7 +765,13 @@ function BlockCard({
           const safeWidth = width || 1;
           const safeHeight = height || 160;
           const proportionalHeight = Math.round((safeHeight / safeWidth) * targetWidth);
-          const finalHeight = Math.max(proportionalHeight, 80);
+          
+          // Küçük resimleri zorla büyütmemek için optimal yüksekliği buluyoruz
+          const optimalHeight = Math.min(proportionalHeight, safeHeight);
+          
+          // Minimum 80px, maksimum sayfa yüksekliği (maxImageHeight) ile sınırla
+          const finalHeight = Math.min(Math.max(optimalHeight, 80), maxImageHeight);
+          
           setBlockHeight(finalHeight);
           onHeightChange(finalHeight);
           setCropModalOpen(false);
