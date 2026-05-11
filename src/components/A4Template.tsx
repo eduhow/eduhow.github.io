@@ -170,6 +170,37 @@ function EditableText({ value, onChange, className = "", isHighlighting = false,
   const [editing, setEditing] = useState(false);
   const divRef = useRef<HTMLDivElement>(null);
 
+  const changeFontSize = (delta: number) => {
+    const selection = window.getSelection();
+    if (!selection || selection.rangeCount === 0 || selection.isCollapsed) return;
+
+    // Geçici olarak en büyük boyutu verip sonra o tagi yakalayacağız
+    document.execCommand("fontSize", false, "7");
+    const fontTags = divRef.current?.querySelectorAll('font[size="7"]');
+    
+    if (fontTags && fontTags.length > 0) {
+      fontTags.forEach(font => {
+        let currentSize = 14; // varsayılan
+        const parent = font.parentElement;
+        if (parent) {
+          const style = window.getComputedStyle(parent);
+          currentSize = parseFloat(style.fontSize) || 14;
+        }
+        
+        const newSize = Math.max(8, currentSize + delta);
+        
+        const span = document.createElement("span");
+        span.style.fontSize = `${newSize}px`;
+        span.innerHTML = font.innerHTML;
+        font.parentNode?.replaceChild(span, font);
+      });
+      // Değişikliğin anında yansıması için manuel tetikleme
+      if (divRef.current) {
+         onChange(sanitizeHTML(divRef.current.innerHTML));
+      }
+    }
+  };
+
   return (
     <div className="relative group w-full block border border-transparent hover:border-red-600 transition-colors duration-150 rounded-none print:border-0">
       <div
@@ -193,6 +224,14 @@ function EditableText({ value, onChange, className = "", isHighlighting = false,
           if (e.ctrlKey && e.key === "i") {
             e.preventDefault();
             document.execCommand("italic", false);
+          }
+          if (e.ctrlKey && e.key === "<") {
+            e.preventDefault();
+            changeFontSize(-2);
+          }
+          if (e.ctrlKey && e.key === ">") {
+            e.preventDefault();
+            changeFontSize(2);
           }
         }}
         onPaste={(e) => {
@@ -733,7 +772,7 @@ function BlockCard({
             onChange={onContentChange}
             className="text-sm leading-relaxed"
             isHighlighting={isHighlighting}
-            tooltipText={"Bu bölüme tıklayarak\ndüzenleyebilirsiniz.\nMetni seç,\nCTRL+B = Kalın\nCTRL+I = Yan yazı"}
+            tooltipText={"Bu bölüme tıklayarak\ndüzenleyebilirsiniz.\nMetni seç,\nCTRL+B = Kalın\nCTRL+I = Yan yazı\nCTRL+< = Font küçült\nCTRL+> = Font büyüt"}
           />
         </div>
       )}
