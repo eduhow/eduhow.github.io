@@ -401,7 +401,7 @@ function ImageUploader({ src, onChange, height, isHighlighting = false, onImageL
 
 /** Basit, kompakt resim yükleme butonu (A4 alanından tasarruf için) */
 interface CompactImageUploaderProps {
-  onImageChange: (val: string | ArrayBuffer | null) => void;
+  onImageChange: (val: string | ArrayBuffer | null, width?: number, height?: number) => void;
   isHighlighting?: boolean;
   className?: string;
   onImageLoadComplete?: () => void;
@@ -449,8 +449,8 @@ function CompactImageUploader({ onImageChange, isHighlighting = false, className
         open={modalOpen}
         imageSrc={tempSrc}
         onClose={() => setModalOpen(false)}
-        onCropComplete={(res) => {
-          onImageChange(res);
+        onCropComplete={(res, width, height) => {
+          onImageChange(res, width, height);
           onImageLoadComplete?.();
         }}
       />
@@ -704,7 +704,24 @@ function BlockCard({
         </div>
       ) : item.imageRemoved ? null : (
         <div className="flex justify-start no-print">
-          <CompactImageUploader onImageChange={onImageChange} isHighlighting={isHighlighting} className="print:hidden" onImageLoadComplete={() => setShowMenu(true)} />
+          <CompactImageUploader 
+            onImageChange={(val, width, height) => {
+              onImageChange(val);
+              if (width && height) {
+                const targetWidth = 343;
+                const safeWidth = width || 1;
+                const safeHeight = height || 160;
+                const proportionalHeight = Math.round((safeHeight / safeWidth) * targetWidth);
+                const optimalHeight = Math.min(proportionalHeight, safeHeight);
+                const finalHeight = Math.min(Math.max(optimalHeight, 80), maxImageHeight);
+                setBlockHeight(finalHeight);
+                onHeightChange(finalHeight);
+              }
+            }} 
+            isHighlighting={isHighlighting} 
+            className="print:hidden" 
+            onImageLoadComplete={() => setShowMenu(true)} 
+          />
         </div>
       )}
 
