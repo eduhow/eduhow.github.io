@@ -359,25 +359,11 @@ function ImageUploader({ src, onChange, height, isHighlighting = false, onImageL
   const [modalOpen, setModalOpen] = useState(false);
   const [tempSrc, setTempSrc] = useState<string>("");
 
-  const [imgNaturalHeight, setImgNaturalHeight] = useState<number | null>(null);
-
-  useEffect(() => {
-    if (src) {
-      const img = new Image();
-      img.onload = () => {
-        setImgNaturalHeight(img.height);
-      };
-      img.src = src;
-    } else {
-      setImgNaturalHeight(null);
-    }
-  }, [src]);
-
   return (
     <>
       <div
         className={`relative overflow-hidden bg-white print:bg-white border border-dashed border-zinc-300 group/imgarea:hover:border-zinc-500 flex items-start justify-center transition-colors duration-200 ${isHighlighting ? "highlight-active" : ""}`}
-        style={{ minHeight: height, height: src ? Math.max(height, imgNaturalHeight || 0) : height }}
+        style={{ height: height }}
       >
         {src && <img src={src} className="w-full h-auto max-h-full object-contain" alt="Yüklenen görsel" />}
 
