@@ -225,11 +225,11 @@ function EditableText({ value, onChange, className = "", isHighlighting = false,
             e.preventDefault();
             document.execCommand("italic", false);
           }
-          if (e.ctrlKey && e.key.toLowerCase() === "n") {
+          if (e.ctrlKey && e.key.toLowerCase() === "m") {
             e.preventDefault();
             changeFontSize(-2);
           }
-          if (e.ctrlKey && e.key.toLowerCase() === "m") {
+          if (e.ctrlKey && e.key.toLowerCase() === "l") {
             e.preventDefault();
             changeFontSize(2);
           }
@@ -772,7 +772,7 @@ function BlockCard({
             onChange={onContentChange}
             className="text-sm leading-relaxed"
             isHighlighting={isHighlighting}
-            tooltipText={"Bu bölüme tıklayarak\ndüzenleyebilirsiniz.\nMetni seç,\nCTRL+B = Kalın\nCTRL+I = Yan yazı\nCTRL+N = Font küçült\nCTRL+M = Font büyüt"}
+            tooltipText={"Bu bölüme tıklayarak\ndüzenleyebilirsiniz.\nMetni seç,\nCTRL+B = Kalın\nCTRL+I = Yan yazı\nCTRL+M = Font küçült\nCTRL+L = Font büyüt"}
           />
         </div>
       )}
