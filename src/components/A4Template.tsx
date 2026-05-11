@@ -759,7 +759,6 @@ function BlockCard({
         onCropComplete={(res, height) => {
         onCropComplete={(res, width, height) => {
           onImageChange(res);
-          const finalHeight = Math.max(height || 160, 160);
           const targetWidth = 343;
           const safeWidth = width || 1;
           const safeHeight = height || 160;
