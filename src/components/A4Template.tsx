@@ -195,10 +195,14 @@ function EditableText({ value, onChange, className = "", isHighlighting = false,
             document.execCommand("italic", false);
           }
         }}
-         onPaste={(e) => {
+        onPaste={(e) => {
           e.preventDefault();
           const text = e.clipboardData.getData("text/plain");
-          document.execCommand("insertText", false, text);
+          const selection = window.getSelection();
+          if (!selection?.rangeCount) return;
+          selection.deleteFromDocument();
+          selection.getRangeAt(0).insertNode(document.createTextNode(text));
+          selection.collapseToEnd();
         }}
         onBlur={(e) => {
           setEditing(false);
