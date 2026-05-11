@@ -225,13 +225,33 @@ function EditableText({ value, onChange, className = "", isHighlighting = false,
             e.preventDefault();
             document.execCommand("italic", false);
           }
-          if (e.ctrlKey && e.key.toLowerCase() === "m") {
+          if (e.ctrlKey && e.key.toLowerCase() === "n") {
             e.preventDefault();
             changeFontSize(-2);
           }
-          if (e.ctrlKey && e.key.toLowerCase() === "l") {
+          if (e.ctrlKey && e.key.toLowerCase() === "m") {
             e.preventDefault();
             changeFontSize(2);
+          }
+          if (e.ctrlKey && e.key.toLowerCase() === "o") {
+            e.preventDefault();
+            const selection = window.getSelection();
+            if (!selection || selection.rangeCount === 0 || selection.isCollapsed) return;
+
+            document.execCommand("fontSize", false, "7");
+            const fontTags = divRef.current?.querySelectorAll('font[size="7"]');
+            
+            if (fontTags && fontTags.length > 0) {
+              fontTags.forEach(font => {
+                const span = document.createElement("span");
+                span.style.fontSize = "14px";
+                span.innerHTML = font.innerHTML;
+                font.parentNode?.replaceChild(span, font);
+              });
+              if (divRef.current) {
+                onChange(sanitizeHTML(divRef.current.innerHTML));
+              }
+            }
           }
         }}
         onPaste={(e) => {
@@ -772,7 +792,7 @@ function BlockCard({
             onChange={onContentChange}
             className="text-sm leading-relaxed"
             isHighlighting={isHighlighting}
-            tooltipText={"Bu bölüme tıklayarak\ndüzenleyebilirsiniz.\nMetni seç,\nCTRL+B = Kalın\nCTRL+I = Yan yazı\nCTRL+M = Font küçült\nCTRL+L = Font büyüt"}
+            tooltipText={"Bu bölüme tıklayarak\ndüzenleyebilirsiniz.\nMetni seç,\nCTRL+B = Kalın\nCTRL+I = Yan yazı\nCTRL+N = Yazıyı küçült\nCTRL+M = Yazıyı büyüt\nCTRL+O = Normal yazı"}
           />
         </div>
       )}
