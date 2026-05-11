@@ -373,8 +373,7 @@ function ImageUploader({ src, onChange, height, isHighlighting = false, onImageL
     <>
       <div
         className={`relative overflow-hidden bg-white print:bg-white border border-dashed border-zinc-300 group/imgarea:hover:border-zinc-500 flex items-start justify-center transition-colors duration-200 ${isHighlighting ? "highlight-active" : ""}`}
-        style={{ height: src ? Math.max(height, imgNaturalHeight || 0) : height }}
-        style={{ minHeight: height }}
+        style={{ minHeight: height, height: src ? Math.max(height, imgNaturalHeight || 0) : height }}
       >
         {src && <img src={src} className="w-full h-auto max-h-full object-contain" alt="Yüklenen görsel" />}
 
