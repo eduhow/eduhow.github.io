@@ -756,7 +756,6 @@ function BlockCard({
         open={cropModalOpen}
         imageSrc={tempImageSrc}
         onClose={() => setCropModalOpen(false)}
-        onCropComplete={(res, height) => {
         onCropComplete={(res, width, height) => {
           onImageChange(res);
           const targetWidth = 343;
