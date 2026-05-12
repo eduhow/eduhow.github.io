@@ -1600,16 +1600,15 @@ export default function A4Template() {
             </button>
           </div>
           <p className="text-sm text-zinc-600 leading-relaxed text-left">
-            Merhaba !<br />
             Yazılı sınav hazırlama aracımızda bazı başlıklar ve bölümler isteğinize göre düzenlenebilir özelliktedir{" "}
             (<span 
               className="text-red-600 font-bold cursor-pointer underline decoration-dotted"
               onMouseEnter={() => setIsHighlighting(true)}
               onMouseLeave={() => setIsHighlighting(false)}
             >
-              O bölümleri gör
+              Bölümleri gör
             </span>
-            ). Çizgileri kalınlaştırabilir, soru alanını daraltabilirsiniz. <strong>Yükleyeceğiniz resimlerdeki soruları otomatik olarak yazıya dönüştürebilirsiniz.</strong>
+            ). Üye olmadan <strong>resim yükleme, resim kırma, resimlerdeki soruları otomatik olarak yazıya dönüştüme</strong>, pdf alma işlemleri yapabilirsiniz.
           </p>
         </div>
       )}
