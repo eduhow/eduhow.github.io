@@ -2,7 +2,7 @@ import * as React from "react";
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Printer, RotateCcw, Mail, FileDown, Plus, X, KeyRound, Upload, AlertTriangle, Sparkles, Loader2, Edit2, Type, Undo2, Search, MoveHorizontal, MoveVertical } from "lucide-react";
-import { toPng } from "html-to-image";
+import { toJpeg } from "html-to-image";
 import jsPDF from "jspdf";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
@@ -269,7 +269,7 @@ function EditableText({ value, onChange, className = "", isHighlighting = false,
         }}
         className={[
           "cursor-text whitespace-pre-wrap text-black outline-none transition-all w-full block",
-          editing ? "ring-2 ring-zinc-300 px-1 print:ring-0" : "",
+          editing ? "ring-2 ring-zinc-300 print:ring-0" : "",
           isHighlighting ? "highlight-active" : "",
           className,
         ]
@@ -1162,6 +1162,8 @@ export default function A4Template() {
   const [showWelcome, setShowWelcome] = useState(false);
   const [showWarningModal, setShowWarningModal] = useState(false);
   const [previewMode, setPreviewMode] = useState(false);
+  const [overflowPage1, setOverflowPage1] = useState(false);
+  const [overflowPage2, setOverflowPage2] = useState(false);
   const [pagePadding, setPagePadding] = useState<number>(() => {
     const saved = window.localStorage.getItem("page-padding");
     return saved ? parseInt(saved, 10) : 5;
@@ -1215,6 +1217,49 @@ export default function A4Template() {
     window.addEventListener("resize", calculateMaxHeight);
     return () => window.removeEventListener("resize", calculateMaxHeight);
   }, []);
+
+  useEffect(() => {
+    const checkOverflow = () => {
+      const measureDiv = document.createElement("div");
+      measureDiv.style.height = "297mm";
+      measureDiv.style.position = "absolute";
+      measureDiv.style.visibility = "hidden";
+      measureDiv.style.pointerEvents = "none";
+      document.body.appendChild(measureDiv);
+      const a4HeightPx = measureDiv.offsetHeight;
+      document.body.removeChild(measureDiv);
+
+      const ephemeralSelector = ".add-block-zone, .no-print, .cursor-s-resize";
+      const hideEls = (root: HTMLElement) => {
+        const els = root.querySelectorAll(ephemeralSelector);
+        const saved: { el: HTMLElement; prev: string }[] = [];
+        els.forEach((el) => {
+          const htmlEl = el as HTMLElement;
+          saved.push({ el: htmlEl, prev: htmlEl.style.display });
+          htmlEl.style.display = "none";
+        });
+        return saved;
+      };
+      const restoreEls = (saved: { el: HTMLElement; prev: string }[]) => {
+        saved.forEach(({ el, prev }) => { el.style.display = prev; });
+      };
+
+      if (page1Ref.current) {
+        const saved = hideEls(page1Ref.current);
+        setOverflowPage1(page1Ref.current.offsetHeight > a4HeightPx + 1);
+        restoreEls(saved);
+      }
+      if (page2Ref.current) {
+        const saved = hideEls(page2Ref.current);
+        setOverflowPage2(page2Ref.current.offsetHeight > a4HeightPx + 1);
+        restoreEls(saved);
+      }
+    };
+
+    checkOverflow();
+    const interval = setInterval(checkOverflow, 500);
+    return () => clearInterval(interval);
+  }, [data, pagePadding, pagePaddingVertical]);
 
   useEffect(() => {
     setIsMounted(true);
@@ -1281,6 +1326,55 @@ export default function A4Template() {
     }
   };
 
+  const autoShrink = () => {
+    const shrinkPage = (
+      page: "page1" | "page2",
+      ref: React.RefObject<HTMLDivElement | null>
+    ) => {
+      if (!ref.current) return false;
+
+      const style = getComputedStyle(ref.current);
+      const paddingTop = parseFloat(style.paddingTop) || 0;
+      const paddingBottom = parseFloat(style.paddingBottom) || 0;
+      const a4ContentHeight = ref.current.clientHeight - paddingTop - paddingBottom;
+      const contentHeight = ref.current.scrollHeight - paddingTop - paddingBottom;
+      const overflow = contentHeight - a4ContentHeight;
+
+      if (overflow <= 0) return false;
+
+      const totalBlockHeight = data[page].left.reduce((sum, b) => sum + (b.height ?? DEFAULT_IMAGE_HEIGHT), 0)
+        + data[page].right.reduce((sum, b) => sum + (b.height ?? DEFAULT_IMAGE_HEIGHT), 0);
+
+      if (totalBlockHeight <= 0) return false;
+
+      const scale = Math.max(0.5, (totalBlockHeight - overflow * 1.1) / totalBlockHeight);
+
+      setData((prev) => {
+        const updated = { ...prev };
+        updated[page] = { ...prev[page] };
+        for (const col of ["left", "right"] as const) {
+          updated[page][col] = prev[page][col].map((block) => {
+            const h = block.height ?? DEFAULT_IMAGE_HEIGHT;
+            const newH = Math.max(60, Math.round(h * scale));
+            return { ...block, height: newH };
+          });
+        }
+        return updated;
+      });
+      return true;
+    };
+
+    const p1 = shrinkPage("page1", page1Ref);
+    const p2 = shrinkPage("page2", page2Ref);
+    if (!p1 && !p2) {
+      setPagePaddingVertical((prev) => {
+        const next = prev <= 5 ? 5 : prev - 2;
+        window.localStorage.setItem("page-padding-vertical", next.toString());
+        return next;
+      });
+    }
+  };
+
   const removeBlock = (page: "page1" | "page2", col: "left" | "right", index: number) => {
     setData((prev) => {
       const updated = { ...prev };
@@ -1339,15 +1433,15 @@ export default function A4Template() {
     document.body.classList.add("pdf-generating");
     try {
       await new Promise(resolve => setTimeout(resolve, 0));
-      const options = { pixelRatio: 1.5, backgroundColor: "#ffffff", cacheBuster: Date.now() };
+      const options = { pixelRatio: 2, backgroundColor: "#ffffff", cacheBuster: Date.now(), quality: 0.95 };
       const [img1, img2] = await Promise.all([
-        toPng(page1Ref.current, options),
-        toPng(page2Ref.current, options)
+        toJpeg(page1Ref.current, options),
+        toJpeg(page2Ref.current, options)
       ]);
-      const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
-      pdf.addImage(img1, "PNG", 0, 0, 210, 297);
+      const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4", compress: true });
+      pdf.addImage(img1, "JPEG", 0, 0, 210, 297, undefined, "FAST");
       pdf.addPage();
-      pdf.addImage(img2, "PNG", 0, 0, 210, 297);
+      pdf.addImage(img2, "JPEG", 0, 0, 210, 297, undefined, "FAST");
 
       const fileName = data.headerTitle ? `${data.headerTitle.trim()}.pdf` : "sablonA4.pdf";
       pdf.save(fileName);
@@ -1513,7 +1607,17 @@ export default function A4Template() {
           </div>
         </div>
 
-        {/* ── Page 2 ── */}
+        {overflowPage1 && (
+            <div className="print:hidden flex items-center gap-2 bg-red-50 border-2 border-red-500 text-red-700 px-4 py-3 rounded-none shadow-md max-w-[210mm] w-full mx-auto mt-2 animate-fade-in">
+              <AlertTriangle className="size-5 shrink-0" />
+              <span className="text-sm font-semibold flex-1">1. Sayfa A4'e sığmıyor! Blok yüksekliklerini azaltın veya kenar boşluklarını daraltın.</span>
+              <Button onClick={autoShrink} className="bg-red-600 text-white hover:bg-red-700 rounded-none text-xs px-3 py-1.5 cursor-pointer shrink-0">
+                Otomatik daralt
+              </Button>
+            </div>
+          )}
+
+          {/* ── Page 2 ── */}
         <div
           ref={page2Ref}
           className="a4-page bg-white border border-zinc-200 shadow-md"
@@ -1580,8 +1684,18 @@ export default function A4Template() {
               }
             />
           </div>
+          </div>
+
+          {overflowPage2 && (
+            <div className="print:hidden flex items-center gap-2 bg-red-50 border-2 border-red-500 text-red-700 px-4 py-3 rounded-none shadow-md max-w-[210mm] w-full mx-auto mt-2 animate-fade-in">
+              <AlertTriangle className="size-5 shrink-0" />
+              <span className="text-sm font-semibold flex-1">2. Sayfa A4'e sığmıyor! Blok yüksekliklerini azaltın veya kenar boşluklarını daraltın.</span>
+              <Button onClick={autoShrink} className="bg-red-600 text-white hover:bg-red-700 rounded-none text-xs px-3 py-1.5 cursor-pointer shrink-0">
+                Otomatik daralt
+              </Button>
+            </div>
+          )}
         </div>
-      </div>
 
       {/* ── Welcome Banner ── */}
       {showWelcome && (

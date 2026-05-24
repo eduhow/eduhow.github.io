@@ -366,8 +366,14 @@ body.pdf-generating .cursor-ns-resize {
   padding-block: 7px !important;
 }
 
-.pdf-generating .print\:hidden {
+.pdf-generating .print\:hidden:not(.floating-action-menu) {
   display: none !important;
+}
+
+.pdf-generating .a4-page {
+  height: 297mm !important;
+  max-height: 297mm !important;
+  overflow: hidden !important;
 }
 
 @keyframes fade-in {
@@ -382,6 +388,11 @@ body.pdf-generating .cursor-ns-resize {
 .preview-mode .a4-print-area .print\:hidden,
 .preview-mode .a4-page .print\:hidden {
   display: none !important;
+}
+
+.preview-mode .a4-page {
+  max-height: 297mm !important;
+  overflow: hidden !important;
 }
 
 .preview-mode .a4-print-area .preview-hidden,
