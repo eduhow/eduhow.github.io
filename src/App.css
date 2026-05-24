@@ -304,11 +304,14 @@ body.pdf-generating .cursor-ns-resize {
   100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.5); border-color: rgba(59, 130, 246, 0.4); }
 }
 
-.highlight-active,
+.highlight-active {
+  animation: highlight-pulse-glow 1.5s infinite ease-in-out !important;
+  transition: none !important;
+}
+
 .highlight-active *,
 .highlight-active *::before,
 .highlight-active *::after {
-  animation: highlight-pulse-glow 1.5s infinite ease-in-out !important;
   transition: none !important;
   transition-duration: 0s !important;
   transition-property: none !important;
