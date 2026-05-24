@@ -1327,19 +1327,41 @@ export default function A4Template() {
   };
 
   const autoShrink = () => {
+    const measureDiv = document.createElement("div");
+    measureDiv.style.height = "297mm";
+    measureDiv.style.position = "absolute";
+    measureDiv.style.visibility = "hidden";
+    measureDiv.style.pointerEvents = "none";
+    document.body.appendChild(measureDiv);
+    const a4HeightPx = measureDiv.offsetHeight;
+    document.body.removeChild(measureDiv);
+
+    const ephemeralSelector = ".add-block-zone, .no-print, .cursor-s-resize";
+    const hideEls = (root: HTMLElement) => {
+      const els = root.querySelectorAll(ephemeralSelector);
+      const saved: { el: HTMLElement; prev: string }[] = [];
+      els.forEach((el) => {
+        const htmlEl = el as HTMLElement;
+        saved.push({ el: htmlEl, prev: htmlEl.style.display });
+        htmlEl.style.display = "none";
+      });
+      return saved;
+    };
+    const restoreEls = (saved: { el: HTMLElement; prev: string }[]) => {
+      saved.forEach(({ el, prev }) => { el.style.display = prev; });
+    };
+
     const shrinkPage = (
       page: "page1" | "page2",
       ref: React.RefObject<HTMLDivElement | null>
     ) => {
       if (!ref.current) return false;
 
-      const style = getComputedStyle(ref.current);
-      const paddingTop = parseFloat(style.paddingTop) || 0;
-      const paddingBottom = parseFloat(style.paddingBottom) || 0;
-      const a4ContentHeight = ref.current.clientHeight - paddingTop - paddingBottom;
-      const contentHeight = ref.current.scrollHeight - paddingTop - paddingBottom;
-      const overflow = contentHeight - a4ContentHeight;
+      const saved = hideEls(ref.current);
+      const currentHeight = ref.current.offsetHeight;
+      restoreEls(saved);
 
+      const overflow = currentHeight - a4HeightPx;
       if (overflow <= 0) return false;
 
       const totalBlockHeight = data[page].left.reduce((sum, b) => sum + (b.height ?? DEFAULT_IMAGE_HEIGHT), 0)
@@ -1347,7 +1369,7 @@ export default function A4Template() {
 
       if (totalBlockHeight <= 0) return false;
 
-      const scale = Math.max(0.5, (totalBlockHeight - overflow * 1.1) / totalBlockHeight);
+      const scale = Math.max(0.5, (totalBlockHeight - overflow * 1.15) / totalBlockHeight);
 
       setData((prev) => {
         const updated = { ...prev };
