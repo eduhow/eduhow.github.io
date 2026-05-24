@@ -268,7 +268,7 @@ function EditableText({ value, onChange, className = "", isHighlighting = false,
           onChange(sanitizeHTML(e.currentTarget.innerHTML));
         }}
         className={[
-          "cursor-text whitespace-pre-wrap text-black outline-none transition-all w-full block",
+          `cursor-text whitespace-pre-wrap text-black outline-none w-full block${isHighlighting ? "" : " transition-all"}`,
           editing ? "ring-2 ring-zinc-300 print:ring-0" : "",
           isHighlighting ? "highlight-active" : "",
           className,
@@ -365,7 +365,7 @@ function LogoUploader({ src, onChange, isHighlighting = false }: LogoUploaderPro
       {src && (
         <button
           onClick={handleReset}
-          className="print:hidden absolute top-0 left-0 z-30 opacity-0 group-hover/logo:opacity-100 flex items-center justify-center gap-1 bg-red-600 hover:bg-red-700 text-white h-5 text-xs cursor-pointer w-full transition-opacity"
+          className={`print:hidden absolute top-0 left-0 z-30 opacity-0 group-hover/logo:opacity-100 flex items-center justify-center gap-1 bg-red-600 hover:bg-red-700 text-white h-5 text-xs cursor-pointer w-full${isHighlighting ? "" : " transition-opacity"}`}
         >
           <Undo2 className="size-3 text-white font-bold" style={{ filter: "drop-shadow(0 0 1px rgba(255,255,255,0.8))" }} />
           <span className="whitespace-nowrap">MEB Logo</span>
@@ -479,9 +479,9 @@ function CompactImageUploader({ onImageChange, isHighlighting = false, className
       >
         <Button
           size="sm"
-          className={`${UPLOAD_BTN_BG} ${UPLOAD_BTN_HOVER} text-white border-transparent cursor-pointer rounded-none gap-2 px-6 h-10 shadow-sm opacity-100 transition-all duration-200 group/uploadbtn`}
+          className={`${UPLOAD_BTN_BG} ${UPLOAD_BTN_HOVER} text-white border-transparent cursor-pointer rounded-none gap-2 px-6 h-10 shadow-sm opacity-100${isHighlighting ? "" : " transition-all duration-200"} group/uploadbtn`}
         >
-          <Upload className="size-4 group-hover/uploadbtn:animate-bounce transition-transform duration-200" />
+          <Upload className={`size-4${isHighlighting ? "" : " transition-transform duration-200"}${isHighlighting ? "" : " group-hover/uploadbtn:animate-bounce"}`} />
           Soru yükle
         </Button>
       </div>
