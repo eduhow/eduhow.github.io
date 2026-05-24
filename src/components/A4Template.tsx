@@ -202,7 +202,7 @@ function EditableText({ value, onChange, className = "", isHighlighting = false,
   };
 
   return (
-    <div className={`relative group w-full block border border-transparent hover:border-red-600 rounded-none print:border-0 ${isHighlighting ? "" : "transition-colors duration-150"}`}>
+    <div className={`relative group w-full block border border-transparent hover:border-red-600 rounded-none print:border-0 ${isHighlighting ? "" : "transition-colors duration-150"}`} style={isHighlighting ? { transition: 'none' } : undefined}>
       <div
         ref={divRef}
         contentEditable
@@ -275,6 +275,7 @@ function EditableText({ value, onChange, className = "", isHighlighting = false,
         ]
           .filter(Boolean)
           .join(" ")}
+        style={isHighlighting ? { transition: 'none' } : undefined}
         dangerouslySetInnerHTML={{ __html: value || "" }}
       />
 
@@ -351,6 +352,7 @@ function LogoUploader({ src, onChange, isHighlighting = false }: LogoUploaderPro
   return (
     <div 
       className={`w-20 h-20 flex-shrink-0 flex items-center justify-center relative group/logo cursor-pointer ${isHighlighting ? "highlight-active" : ""}`}
+      style={isHighlighting ? { transition: 'none' } : undefined}
       onMouseEnter={() => setShowTooltip(true)}
       onMouseLeave={() => setShowTooltip(false)}
       onClick={handleClick}
@@ -366,6 +368,7 @@ function LogoUploader({ src, onChange, isHighlighting = false }: LogoUploaderPro
         <button
           onClick={handleReset}
           className={`print:hidden absolute top-0 left-0 z-30 opacity-0 group-hover/logo:opacity-100 flex items-center justify-center gap-1 bg-red-600 hover:bg-red-700 text-white h-5 text-xs cursor-pointer w-full${isHighlighting ? "" : " transition-opacity"}`}
+          style={isHighlighting ? { transition: 'none' } : undefined}
         >
           <Undo2 className="size-3 text-white font-bold" style={{ filter: "drop-shadow(0 0 1px rgba(255,255,255,0.8))" }} />
           <span className="whitespace-nowrap">MEB Logo</span>
@@ -421,8 +424,8 @@ function ImageUploader({ src, onChange, height, isHighlighting = false, onImageL
   return (
     <>
       <div
-        className={`relative overflow-hidden bg-white print:bg-white border border-dashed border-zinc-300 group/imgarea:hover:border-zinc-500 flex items-start justify-center ${isHighlighting ? "highlight-active" : "transition-colors duration-200"}`}
-        style={{ height: height }}
+        className={`relative overflow-hidden bg-white print:bg-white border border-dashed border-zinc-300 group/imgarea:hover:border-zinc-500 flex items-start justify-center ${isHighlighting ? "highlight-active" : "transition-colors duration-150"}`}
+        style={{ ...({ height: height } as React.CSSProperties), ...(isHighlighting ? { transition: 'none' } as React.CSSProperties : {}) }}
       >
         {src && <img src={src} className="w-full h-auto max-h-full object-contain" alt="Yüklenen görsel" />}
 
@@ -475,13 +478,15 @@ function CompactImageUploader({ onImageChange, isHighlighting = false, className
     <div className={`w-full ${className}`}>
       <div 
         onClick={() => inputRef.current?.click()}
-        className={`group relative flex flex-col items-center justify-center w-full min-h-[200px] bg-slate-50/50 border-2 border-dashed border-slate-300 hover:border-slate-400 hover:bg-slate-100/50 cursor-pointer ${isHighlighting ? "highlight-active" : "transition-all duration-200"}`}
+        className={`group relative flex flex-col items-center justify-center w-full min-h-[200px] bg-slate-50/50 border-2 border-dashed border-slate-300 hover:border-slate-400 hover:bg-slate-100/50 cursor-pointer ${isHighlighting ? "highlight-active" : "transition-colors duration-150"}`}
+        style={isHighlighting ? { transition: 'none' } : undefined}
       >
         <Button
           size="sm"
-          className={`${UPLOAD_BTN_BG} ${UPLOAD_BTN_HOVER} text-white border-transparent cursor-pointer rounded-none gap-2 px-6 h-10 shadow-sm opacity-100${isHighlighting ? "" : " transition-all duration-200"} group/uploadbtn`}
+          className={`${UPLOAD_BTN_BG} ${UPLOAD_BTN_HOVER} text-white border-transparent cursor-pointer rounded-none gap-2 px-6 h-10 shadow-sm opacity-100${isHighlighting ? "" : " transition-all duration-150"} group/uploadbtn`}
+          style={isHighlighting ? { transition: 'none' } : undefined}
         >
-          <Upload className={`size-4${isHighlighting ? "" : " transition-transform duration-200"}${isHighlighting ? "" : " group-hover/uploadbtn:animate-bounce"}`} />
+          <Upload className={`size-4${isHighlighting ? "" : " transition-transform duration-150"}${isHighlighting ? "" : " group-hover/uploadbtn:animate-bounce"}`} style={isHighlighting ? { transition: 'none' } : undefined} />
           Soru yükle
         </Button>
       </div>
@@ -802,7 +807,8 @@ function BlockCard({
         <Tooltip open={showResizeTooltip}>
           <TooltipTrigger asChild>
             <div
-              className={`no-print h-2 w-full cursor-s-resize bg-zinc-100 hover:bg-zinc-300 rounded-b print:hidden flex items-center justify-center group/resize ${isHighlighting ? "highlight-active" : "transition-colors"}`}
+              className={`no-print h-2 w-full cursor-s-resize bg-zinc-100 hover:bg-zinc-300 rounded-b print:hidden flex items-center justify-center group/resize ${isHighlighting ? "highlight-active" : "transition-colors duration-150"}`}
+              style={isHighlighting ? { transition: 'none' } : undefined}
               onMouseDown={handleResizeStart}
               onMouseEnter={() => setShowResizeTooltip(true)}
               onMouseLeave={() => setShowResizeTooltip(false)}
