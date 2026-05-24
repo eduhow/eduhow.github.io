@@ -202,7 +202,7 @@ function EditableText({ value, onChange, className = "", isHighlighting = false,
   };
 
   return (
-    <div className="relative group w-full block border border-transparent hover:border-red-600 transition-colors duration-150 rounded-none print:border-0">
+    <div className={`relative group w-full block border border-transparent hover:border-red-600 rounded-none print:border-0 ${isHighlighting ? "" : "transition-colors duration-150"}`}>
       <div
         ref={divRef}
         contentEditable
@@ -421,7 +421,7 @@ function ImageUploader({ src, onChange, height, isHighlighting = false, onImageL
   return (
     <>
       <div
-        className={`relative overflow-hidden bg-white print:bg-white border border-dashed border-zinc-300 group/imgarea:hover:border-zinc-500 flex items-start justify-center transition-colors duration-200 ${isHighlighting ? "highlight-active" : ""}`}
+        className={`relative overflow-hidden bg-white print:bg-white border border-dashed border-zinc-300 group/imgarea:hover:border-zinc-500 flex items-start justify-center ${isHighlighting ? "highlight-active" : "transition-colors duration-200"}`}
         style={{ height: height }}
       >
         {src && <img src={src} className="w-full h-auto max-h-full object-contain" alt="Yüklenen görsel" />}
@@ -475,7 +475,7 @@ function CompactImageUploader({ onImageChange, isHighlighting = false, className
     <div className={`w-full ${className}`}>
       <div 
         onClick={() => inputRef.current?.click()}
-        className={`group relative flex flex-col items-center justify-center w-full min-h-[200px] bg-slate-50/50 border-2 border-dashed border-slate-300 hover:border-slate-400 hover:bg-slate-100/50 cursor-pointer transition-all duration-200 ${isHighlighting ? "highlight-active" : ""}`}
+        className={`group relative flex flex-col items-center justify-center w-full min-h-[200px] bg-slate-50/50 border-2 border-dashed border-slate-300 hover:border-slate-400 hover:bg-slate-100/50 cursor-pointer ${isHighlighting ? "highlight-active" : "transition-all duration-200"}`}
       >
         <Button
           size="sm"
@@ -802,7 +802,7 @@ function BlockCard({
         <Tooltip open={showResizeTooltip}>
           <TooltipTrigger asChild>
             <div
-              className={`no-print h-2 w-full cursor-s-resize bg-zinc-100 hover:bg-zinc-300 transition-colors rounded-b print:hidden flex items-center justify-center group/resize ${isHighlighting ? "highlight-active" : ""}`}
+              className={`no-print h-2 w-full cursor-s-resize bg-zinc-100 hover:bg-zinc-300 rounded-b print:hidden flex items-center justify-center group/resize ${isHighlighting ? "highlight-active" : "transition-colors"}`}
               onMouseDown={handleResizeStart}
               onMouseEnter={() => setShowResizeTooltip(true)}
               onMouseLeave={() => setShowResizeTooltip(false)}

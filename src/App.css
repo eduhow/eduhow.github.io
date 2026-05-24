@@ -306,7 +306,7 @@ body.pdf-generating .cursor-ns-resize {
 
 .highlight-active,
 .highlight-active * {
-  animation: highlight-pulse-glow 2.5s infinite ease-in-out !important;
+  animation: highlight-pulse-glow 1.5s infinite ease-in-out !important;
   transition: none !important;
 }
 
