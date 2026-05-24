@@ -308,7 +308,7 @@ body.pdf-generating .cursor-ns-resize {
   animation: highlight-pulse-glow 1.5s infinite ease-in-out !important;
   background-color: rgba(59, 130, 246, 0.05) !important;
   border-radius: 0 !important;
-  transition: all 0.3s ease !important;
+  transition: none !important;
   z-index: 40 !important;
   cursor: s-resize !important;
 }
