@@ -1229,7 +1229,7 @@ export default function A4Template() {
       const a4HeightPx = measureDiv.offsetHeight;
       document.body.removeChild(measureDiv);
 
-      const ephemeralSelector = ".add-block-zone, .no-print, .cursor-s-resize";
+      const ephemeralSelector = ".add-block-zone, .add-answer-key-zone, .no-print, .cursor-s-resize";
       const hideEls = (root: HTMLElement) => {
         const els = root.querySelectorAll(ephemeralSelector);
         const saved: { el: HTMLElement; prev: string }[] = [];
@@ -1336,7 +1336,7 @@ export default function A4Template() {
     const a4HeightPx = measureDiv.offsetHeight;
     document.body.removeChild(measureDiv);
 
-    const ephemeralSelector = ".add-block-zone, .no-print, .cursor-s-resize";
+    const ephemeralSelector = ".add-block-zone, .add-answer-key-zone, .no-print, .cursor-s-resize";
     const hideEls = (root: HTMLElement) => {
       const els = root.querySelectorAll(ephemeralSelector);
       const saved: { el: HTMLElement; prev: string }[] = [];
