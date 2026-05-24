@@ -304,13 +304,10 @@ body.pdf-generating .cursor-ns-resize {
   100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.5); border-color: rgba(59, 130, 246, 0.4); }
 }
 
-.highlight-active {
+.highlight-active,
+.highlight-active * {
   animation: highlight-pulse-glow 1.5s infinite ease-in-out !important;
-  background-color: rgba(59, 130, 246, 0.05) !important;
-  border-radius: 0 !important;
   transition: none !important;
-  z-index: 40 !important;
-  cursor: s-resize !important;
 }
 
 /* Sihirli Yıldız Animasyonu (OCR Butonu İçin) */
