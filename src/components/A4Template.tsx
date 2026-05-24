@@ -646,7 +646,7 @@ function BlockCard({
   };
 
   return (
-    <div ref={cardRef} className={`relative group/block bg-white border border-zinc-200 hover:border-red-600 p-3 flex flex-col gap-2 print:border-zinc-200 ${removing ? "overflow-hidden block-removing" : "overflow-visible transition-colors duration-200"} ${!item.content && !item.image ? "print:hidden preview-hidden" : ""} ${!item.content && !item.image && !item.text ? "preview-hidden-empty" : ""}`}>
+    <div ref={cardRef} className={`relative group/block bg-white border border-zinc-200 hover:border-red-600 px-3 py-[5px] flex flex-col gap-2 print:border-zinc-200 ${removing ? "overflow-hidden block-removing" : "overflow-visible transition-colors duration-200"} ${!item.content && !item.image ? "print:hidden preview-hidden" : ""} ${!item.content && !item.image && !item.text ? "preview-hidden-empty" : ""}`}>
       {/* Bloku Kaldır - Sol alt köşe, hover'da görünür */}
       <button
         onClick={handleRemove}
