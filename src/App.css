@@ -305,9 +305,14 @@ body.pdf-generating .cursor-ns-resize {
 }
 
 .highlight-active,
-.highlight-active * {
+.highlight-active *,
+.highlight-active *::before,
+.highlight-active *::after {
   animation: highlight-pulse-glow 1.5s infinite ease-in-out !important;
   transition: none !important;
+  transition-duration: 0s !important;
+  transition-property: none !important;
+  transition-delay: 0s !important;
 }
 
 /* Sihirli Yıldız Animasyonu (OCR Butonu İçin) */
