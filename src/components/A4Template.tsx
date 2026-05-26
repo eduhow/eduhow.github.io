@@ -478,12 +478,12 @@ function CompactImageUploader({ onImageChange, isHighlighting = false, className
     <div className={`w-full ${className}`}>
       <div 
         onClick={() => inputRef.current?.click()}
-        className={`group relative flex flex-col items-center justify-center w-full min-h-[200px] bg-slate-50/50 border-2 border-dashed border-slate-300 hover:border-slate-400 hover:bg-slate-100/50 cursor-pointer ${isHighlighting ? "highlight-active" : "transition-colors duration-500"}`}
+        className={`group relative flex flex-col items-center justify-center w-full min-h-[200px] bg-slate-50/50 border-2 border-dashed border-slate-300 hover:border-slate-400 hover:bg-slate-100/50 cursor-pointer ${isHighlighting ? "highlight-active" : "transition-colors duration-150"}`}
         style={isHighlighting ? { transition: 'none' } : undefined}
       >
         <Button
           size="sm"
-          className={`${UPLOAD_BTN_BG} ${UPLOAD_BTN_HOVER} text-white border-transparent cursor-pointer rounded-none gap-2 px-6 h-10 shadow-sm opacity-100${isHighlighting ? "" : " transition-colors duration-500"} upload-btn`}
+          className={`${UPLOAD_BTN_BG} ${UPLOAD_BTN_HOVER} text-white border-transparent cursor-pointer rounded-none gap-2 px-6 h-10 shadow-sm opacity-100${isHighlighting ? "" : " transition-colors duration-150"} upload-btn`}
           style={isHighlighting ? { transition: 'none' } : undefined}
         >
           <Upload className="size-4" />
@@ -651,7 +651,7 @@ function BlockCard({
   };
 
   return (
-    <div ref={cardRef} className={`relative group/block bg-white border border-zinc-200 hover:border-red-600 px-3 py-[5px] flex flex-col gap-2 print:border-zinc-200 ${removing ? "overflow-hidden block-removing" : "overflow-visible transition-colors duration-500"} ${!item.content && !item.image ? "print:hidden preview-hidden" : ""} ${!item.content && !item.image && !item.text ? "preview-hidden-empty" : ""}`}>
+    <div ref={cardRef} className={`relative group/block bg-white border border-zinc-200 hover:border-red-600 px-3 py-[5px] flex flex-col gap-2 print:border-zinc-200 ${removing ? "overflow-hidden block-removing" : "overflow-visible transition-colors duration-150"} ${!item.content && !item.image ? "print:hidden preview-hidden" : ""} ${!item.content && !item.image && !item.text ? "preview-hidden-empty" : ""}`}>
       {/* Bloku Kaldır - Sol alt köşe, hover'da görünür */}
       <button
         onClick={handleRemove}
@@ -807,7 +807,7 @@ function BlockCard({
         <Tooltip open={showResizeTooltip}>
           <TooltipTrigger asChild>
             <div
-              className={`no-print h-2 w-full cursor-s-resize bg-zinc-100 hover:bg-zinc-300 rounded-b print:hidden flex items-center justify-center group/resize ${isHighlighting ? "highlight-active" : "transition-colors duration-500"}`}
+              className={`no-print h-2 w-full cursor-s-resize bg-zinc-100 hover:bg-zinc-300 rounded-b print:hidden flex items-center justify-center group/resize ${isHighlighting ? "highlight-active" : "transition-colors duration-150"}`}
               style={isHighlighting ? { transition: 'none' } : undefined}
               onMouseDown={handleResizeStart}
               onMouseEnter={() => setShowResizeTooltip(true)}
