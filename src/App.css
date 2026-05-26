@@ -361,6 +361,16 @@ body.pdf-generating .cursor-ns-resize {
 .highlight-active .group\/uploadbtn:hover {
   animation: none !important;
 }
+
+/* Upload button hover glow - highlight-pulse-glow ile benzer yumusaklikta */
+.upload-btn:hover {
+  animation: upload-btn-pulse 3s infinite ease-in-out;
+}
+
+.highlight-active .upload-btn:hover,
+.upload-btn.highlight-active:hover {
+  animation: none !important;
+}
 @media print {
   .no-print {
     display: none !important;
