@@ -486,7 +486,7 @@ function CompactImageUploader({ onImageChange, isHighlighting = false, className
           className={`${UPLOAD_BTN_BG} ${UPLOAD_BTN_HOVER} text-white border-transparent cursor-pointer rounded-none gap-2 px-6 h-10 shadow-sm opacity-100${isHighlighting ? "" : " transition-colors duration-500"} group/uploadbtn`}
           style={isHighlighting ? { transition: 'none' } : undefined}
         >
-          <Upload className={`size-4${isHighlighting ? "" : " group-hover/uploadbtn:animate-bounce-slow"}`} style={isHighlighting ? { transition: 'none' } : undefined} />
+          <Upload className="size-4" />
           Soru yükle
         </Button>
       </div>
@@ -715,7 +715,7 @@ function BlockCard({
                   input.click();
                 }}
               >
-                <Upload className="size-3.5 group-hover/upload:animate-bounce-slow" />
+                <Upload className="size-3.5" />
                 <span className="font-semibold text-xs">Tekrar soru yükle</span>
               </Button>
               {/* Metin bölümü ekle - sadece content boş veya undefined ise göster */}

@@ -346,6 +346,21 @@ body.pdf-generating .cursor-ns-resize {
 }
 
 /* Yazici/PDF'de gizlenecek elementler */
+/* Upload button glow animasyonu - highlight-pulse-glow ile benzer yumusaklıkta */
+@keyframes upload-btn-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.3); }
+  50% { box-shadow: 0 0 10px 3px rgba(37, 99, 235, 0.2); }
+  100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.3); }
+}
+
+.group\/uploadbtn:hover {
+  animation: upload-btn-pulse 3s infinite ease-in-out;
+}
+
+.highlight-active.group\/uploadbtn:hover,
+.highlight-active .group\/uploadbtn:hover {
+  animation: none !important;
+}
 @media print {
   .no-print {
     display: none !important;
@@ -424,5 +439,11 @@ body.pdf-generating .cursor-ns-resize {
 }
 
 .animate-bounce-slow {
+  animation: bounce-slow 3s infinite ease-in-out;
+}
+
+.group:hover .group-hover\:animate-bounce-slow,
+.group\/uploadbtn:hover .group-hover\/uploadbtn\:animate-bounce-slow,
+.group\/upload:hover .group-hover\/upload\:animate-bounce-slow {
   animation: bounce-slow 3s infinite ease-in-out;
 }
