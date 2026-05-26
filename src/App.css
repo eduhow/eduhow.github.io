@@ -47,6 +47,11 @@
   --radius-xl: calc(var(--radius) + 4px);
 
   --font-sans: "Inter", sans-serif;
+
+  --animate-bounce-slow: bounce-slow 3s infinite ease-in-out;
+  --animate-highlight-pulse: highlight-pulse-glow 3s infinite ease-in-out;
+  --animate-sparkle-magic: sparkle-magic 3s infinite ease-in-out;
+  --animate-upload-arrow: upload-arrow 2s ease-in-out infinite;
 }
 :root {
   --page-padding-h: 5mm;
@@ -255,10 +260,10 @@
 
 /*  PDF Generation Styles  */
 
-/* Block remove animation - Güzel fade-out ve slide-up */
+/* Block remove animation - yavaş ve yumuşak */
 .block-removing {
   opacity: 0;
-  transform: translateY(-30px) scale(0.92);
+  transform: translateY(-20px) scale(0.96);
   height: 0 !important;
   padding-top: 0 !important;
   padding-bottom: 0 !important;
@@ -267,25 +272,24 @@
   border-top-width: 0 !important;
   border-bottom-width: 0 !important;
   pointer-events: none;
-  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* Diğer blokların yukarı kayması için */
 .block-removing + * {
-  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* Upload arrow animation */
+/* Upload arrow animation - yavaş ve zarif */
 @keyframes upload-arrow {
   0%   { transform: translateY(0); }
-  30%  { transform: translateY(-3px); }
+  30%  { transform: translateY(-2px); }
   60%  { transform: translateY(0); }
-  80%  { transform: translateY(-1.5px); }
+  80%  { transform: translateY(-1px); }
   100% { transform: translateY(0); }
 }
 
 .upload-btn:hover .upload-icon {
-  animation: upload-arrow 1.2s ease-in-out infinite;
+  animation: upload-arrow 2s ease-in-out infinite;
 }
 
 /* Hide interactive elements when html-to-image is capturing */
@@ -297,15 +301,15 @@ body.pdf-generating .cursor-ns-resize {
   display: none !important;
 }
 
-/* Kullanıcı isteği: Belirginleştirme Efekti (Highlight Glow) */
+/* Belirginlestirme Efekti (Highlight Glow) - yavaş ve yumuşak */
 @keyframes highlight-pulse-glow {
-  0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.5); border-color: rgba(59, 130, 246, 0.4); }
-  50% { box-shadow: 0 0 15px 5px rgba(59, 130, 246, 0.3); border-color: rgba(59, 130, 246, 0.8); }
-  100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.5); border-color: rgba(59, 130, 246, 0.4); }
+  0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.3); border-color: rgba(59, 130, 246, 0.3); }
+  50% { box-shadow: 0 0 12px 4px rgba(59, 130, 246, 0.25); border-color: rgba(59, 130, 246, 0.7); }
+  100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.3); border-color: rgba(59, 130, 246, 0.3); }
 }
 
 .highlight-active {
-  animation: highlight-pulse-glow 1.5s infinite ease-in-out !important;
+  animation: highlight-pulse-glow 3s infinite ease-in-out !important;
   transition: none !important;
 }
 
@@ -316,38 +320,39 @@ body.pdf-generating .cursor-ns-resize {
   transition-duration: 0s !important;
   transition-property: none !important;
   transition-delay: 0s !important;
+  animation: none !important;
 }
 
-/* Sihirli Yıldız Animasyonu (OCR Butonu İçin) */
+/* Sihirli Yildiz Animasyonu (OCR Butonu) - yavaş ve zarif */
 @keyframes sparkle-magic {
   0% { transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 0 rgba(255, 255, 255, 0)); }
-  25% { transform: scale(1.2) rotate(-15deg); filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8)); }
+  25% { transform: scale(1.1) rotate(-8deg); filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.6)); }
   50% { transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 0 rgba(255, 255, 255, 0)); }
-  75% { transform: scale(1.2) rotate(15deg); filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8)); }
+  75% { transform: scale(1.1) rotate(8deg); filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.6)); }
   100% { transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 0 rgba(255, 255, 255, 0)); }
 }
 
 .animate-sparkle-magic {
-  animation: sparkle-magic 2s infinite ease-in-out;
+  animation: sparkle-magic 3s infinite ease-in-out;
   display: inline-block;
 }
 
 .hover\:animate-sparkle-magic:hover {
-  animation: sparkle-magic 1s infinite ease-in-out;
+  animation: sparkle-magic 1.5s infinite ease-in-out;
 }
 
 .group:hover .group-hover-sparkle {
-  animation: sparkle-magic 1s infinite ease-in-out;
+  animation: sparkle-magic 1.5s infinite ease-in-out;
 }
 
-/* Yazıcı/PDF'de gizlenecek elementler */
+/* Yazici/PDF'de gizlenecek elementler */
 @media print {
   .no-print {
     display: none !important;
   }
 }
 
-/* Kullanıcı isteği: mt-1 altındaki metin alanlarına özel kesikli kenarlık ve hover efekti (SADECE EKRANDA GÖRÜNÜR) */
+/* Kullanici istegi: mt-1 altindaki metin alanlarina ozeel kesikli kenarlik ve hover efekti (SADECE EKRANDA GORUNUR) */
 @media screen {
   .mt-1 > div > div {
     border: 2px dashed #cad5e2  !important;
@@ -412,11 +417,12 @@ body.pdf-generating .cursor-ns-resize {
   display: none !important;
 }
 
+/* Yavaş ve zarif zıplama animasyonu */
 @keyframes bounce-slow {
-  0%, 100% { transform: translateY(-15%); animation-timing-function: cubic-bezier(0.8, 0, 1, 1); }
+  0%, 100% { transform: translateY(-8%); animation-timing-function: cubic-bezier(0.8, 0, 1, 1); }
   50% { transform: translateY(0); animation-timing-function: cubic-bezier(0, 0, 0.2, 1); }
 }
 
 .animate-bounce-slow {
-  animation: bounce-slow 2s infinite;
+  animation: bounce-slow 3s infinite ease-in-out;
 }
