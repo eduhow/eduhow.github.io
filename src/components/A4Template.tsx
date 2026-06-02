@@ -169,6 +169,16 @@ const sanitizeHTML = (html: string): string => {
 function EditableText({ value, onChange, className = "", isHighlighting = false, tooltipText }: EditableTextProps) {
   const [editing, setEditing] = useState(false);
   const divRef = useRef<HTMLDivElement>(null);
+  const lastCommittedRef = useRef<string>(value);
+
+  useEffect(() => {
+    if (!editing && divRef.current) {
+      const current = divRef.current.innerHTML;
+      if (current !== value && lastCommittedRef.current !== value) {
+        divRef.current.innerHTML = value || "";
+      }
+    }
+  }, [value, editing]);
 
   const changeFontSize = (delta: number) => {
     const selection = window.getSelection();
@@ -216,7 +226,28 @@ function EditableText({ value, onChange, className = "", isHighlighting = false,
           setEditing(true);
           e.currentTarget.focus();
         }}
-        onKeyDown={(e) => {
+onKeyDown={(e) => {
+          if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            const el = divRef.current;
+            if (el) {
+              const sel = window.getSelection();
+              if (sel && sel.rangeCount > 0) {
+                const range = sel.getRangeAt(0);
+                range.deleteContents();
+                const br = document.createElement("br");
+                range.insertNode(br);
+                range.setStartAfter(br);
+                range.collapse(true);
+                sel.removeAllRanges();
+                sel.addRange(range);
+              }
+              const html = sanitizeHTML(el.innerHTML);
+              lastCommittedRef.current = html;
+              onChange(html);
+            }
+            return;
+          }
           if (e.ctrlKey && e.key === "b") {
             e.preventDefault();
             document.execCommand("bold", false);
@@ -263,9 +294,20 @@ function EditableText({ value, onChange, className = "", isHighlighting = false,
           selection.getRangeAt(0).insertNode(document.createTextNode(text));
           selection.collapseToEnd();
         }}
-        onBlur={(e) => {
+onInput={() => {
+          if (divRef.current) {
+            const html = sanitizeHTML(divRef.current.innerHTML);
+            lastCommittedRef.current = html;
+            onChange(html);
+          }
+        }}
+        onBlur={() => {
           setEditing(false);
-          onChange(sanitizeHTML(e.currentTarget.innerHTML));
+          if (divRef.current) {
+            const html = sanitizeHTML(divRef.current.innerHTML);
+            lastCommittedRef.current = html;
+            onChange(html);
+          }
         }}
         className={[
           `cursor-text whitespace-pre-wrap text-black outline-none w-full block${isHighlighting ? "" : " transition-all"}`,
