@@ -294,14 +294,7 @@ onKeyDown={(e) => {
           selection.getRangeAt(0).insertNode(document.createTextNode(text));
           selection.collapseToEnd();
         }}
-onInput={() => {
-          if (divRef.current) {
-            const html = sanitizeHTML(divRef.current.innerHTML);
-            lastCommittedRef.current = html;
-            onChange(html);
-          }
-        }}
-        onBlur={() => {
+onBlur={() => {
           setEditing(false);
           if (divRef.current) {
             const html = sanitizeHTML(divRef.current.innerHTML);
