@@ -528,7 +528,8 @@ function CompactImageUploader({ onImageChange, isHighlighting = false, className
       >
 <Button
           size="sm"
-          className={`${isHighlighting ? UPLOAD_BTN_BG : `${UPLOAD_BTN_BG} ${UPLOAD_BTN_HOVER}`} text-white border-transparent cursor-pointer rounded-none gap-2 px-6 h-10 shadow-sm opacity-100${isHighlighting ? "" : " transition-colors duration-150"}`}
+          className={`${UPLOAD_BTN_BG} ${UPLOAD_BTN_HOVER} text-white border-transparent cursor-pointer rounded-none gap-2 px-6 h-10 shadow-sm opacity-100 upload-btn`}
+          style={isHighlighting ? { transition: 'none' } : undefined}
         >
           <Upload className="size-4" />
           Soru yükle
