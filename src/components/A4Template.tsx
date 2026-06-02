@@ -526,10 +526,9 @@ function CompactImageUploader({ onImageChange, isHighlighting = false, className
         className={`group relative flex flex-col items-center justify-center w-full min-h-[200px] ${isHighlighting ? "border-2 border-dashed highlight-active" : "bg-slate-50/50 border-2 border-dashed border-slate-300 hover:border-slate-400 hover:bg-slate-100/50"} cursor-pointer`}
         style={isHighlighting ? { transition: 'none' } : undefined}
       >
-        <Button
+<Button
           size="sm"
-          className={`${UPLOAD_BTN_BG} ${UPLOAD_BTN_HOVER} text-white border-transparent cursor-pointer rounded-none gap-2 px-6 h-10 shadow-sm opacity-100 upload-btn`}
-          style={isHighlighting ? { transition: 'none' } : undefined}
+          className={`${isHighlighting ? UPLOAD_BTN_BG : `${UPLOAD_BTN_BG} ${UPLOAD_BTN_HOVER}`} text-white border-transparent cursor-pointer rounded-none gap-2 px-6 h-10 shadow-sm opacity-100${isHighlighting ? "" : " transition-colors duration-150"}`}
         >
           <Upload className="size-4" />
           Soru yükle
@@ -537,7 +536,6 @@ function CompactImageUploader({ onImageChange, isHighlighting = false, className
       </div>
 
       <input
-        ref={inputRef}
         type="file"
         accept="image/*"
         className="hidden"
