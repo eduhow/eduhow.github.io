@@ -523,7 +523,7 @@ function CompactImageUploader({ onImageChange, isHighlighting = false, className
     <div className={`w-full ${className}`}>
       <div 
         onClick={() => inputRef.current?.click()}
-        className={`group relative flex flex-col items-center justify-center w-full min-h-[200px] bg-slate-50/50 border-2 border-dashed border-slate-300 hover:border-slate-400 hover:bg-slate-100/50 cursor-pointer ${isHighlighting ? "highlight-active" : ""}`}
+        className={`group relative flex flex-col items-center justify-center w-full min-h-[200px] ${isHighlighting ? "border-2 border-dashed highlight-active" : "bg-slate-50/50 border-2 border-dashed border-slate-300 hover:border-slate-400 hover:bg-slate-100/50"} cursor-pointer`}
         style={isHighlighting ? { transition: 'none' } : undefined}
       >
         <Button
