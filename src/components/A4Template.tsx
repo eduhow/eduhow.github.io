@@ -700,8 +700,8 @@ function BlockCard({
       {/* Bloku Kaldır - Sol alt köşe, hover'da görünür */}
       <button
         onClick={handleRemove}
-        className="print:hidden absolute z-20 opacity-0 group-hover/block:opacity-100 transition-opacity duration-200 flex items-center bg-red-600 border-r border-t border-red-700 text-white hover:bg-red-700 h-6 px-2 cursor-pointer"
-        style={{ left: 0, bottom: 0 }}
+className="print:hidden absolute z-20 opacity-0 group-hover/block:opacity-100 transition-opacity duration-200 flex items-center bg-red-600 border-l border-t border-red-700 text-white hover:bg-red-700 h-6 px-2 cursor-pointer"
+        style={{ right: 0, bottom: 0 }}
       >
         <X className="size-4" />
         <span className="ml-1.5 text-xs font-semibold">Bloku kaldır</span>
