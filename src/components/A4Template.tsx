@@ -536,9 +536,10 @@ function CompactImageUploader({ onImageChange, isHighlighting = false, className
         </Button>
       </div>
 
-      <input
+<input
         type="file"
         accept="image/*"
+        ref={inputRef}
         className="hidden"
         onChange={(e) => {
           const file = e.target.files?.[0];
