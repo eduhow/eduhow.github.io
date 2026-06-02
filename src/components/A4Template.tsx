@@ -169,28 +169,35 @@ const sanitizeHTML = (html: string): string => {
 function EditableText({ value, onChange, className = "", isHighlighting = false, tooltipText }: EditableTextProps) {
   const [editing, setEditing] = useState(false);
   const divRef = useRef<HTMLDivElement>(null);
-  const lastCommittedRef = useRef<string>(value);
+  const localEditRef = useRef(false);
 
   useEffect(() => {
-    if (!editing && divRef.current) {
-      const current = divRef.current.innerHTML;
-      if (current !== value && lastCommittedRef.current !== value) {
+    if (divRef.current && !editing && !localEditRef.current) {
+      if (divRef.current.innerHTML !== (value || "")) {
         divRef.current.innerHTML = value || "";
       }
     }
-  }, [value, editing]);
+  }, [value]);
+
+  const commitContent = () => {
+    if (divRef.current) {
+      localEditRef.current = true;
+      const html = sanitizeHTML(divRef.current.innerHTML);
+      onChange(html);
+      setTimeout(() => { localEditRef.current = false; }, 0);
+    }
+  };
 
   const changeFontSize = (delta: number) => {
     const selection = window.getSelection();
     if (!selection || selection.rangeCount === 0 || selection.isCollapsed) return;
 
-    // Geçici olarak en büyük boyutu verip sonra o tagi yakalayacağız
     document.execCommand("fontSize", false, "7");
     const fontTags = divRef.current?.querySelectorAll('font[size="7"]');
     
     if (fontTags && fontTags.length > 0) {
       fontTags.forEach(font => {
-        let currentSize = 14; // varsayılan
+        let currentSize = 14;
         const parent = font.parentElement;
         if (parent) {
           const style = window.getComputedStyle(parent);
@@ -204,7 +211,6 @@ function EditableText({ value, onChange, className = "", isHighlighting = false,
         span.innerHTML = font.innerHTML;
         font.parentNode?.replaceChild(span, font);
       });
-      // Değişikliğin anında yansıması için manuel tetikleme
       if (divRef.current) {
          onChange(sanitizeHTML(divRef.current.innerHTML));
       }
@@ -226,25 +232,19 @@ function EditableText({ value, onChange, className = "", isHighlighting = false,
           setEditing(true);
           e.currentTarget.focus();
         }}
-onKeyDown={(e) => {
+        onKeyDown={(e) => {
           if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault();
-            const el = divRef.current;
-            if (el) {
-              const sel = window.getSelection();
-              if (sel && sel.rangeCount > 0) {
-                const range = sel.getRangeAt(0);
-                range.deleteContents();
-                const br = document.createElement("br");
-                range.insertNode(br);
-                range.setStartAfter(br);
-                range.collapse(true);
-                sel.removeAllRanges();
-                sel.addRange(range);
-              }
-              const html = sanitizeHTML(el.innerHTML);
-              lastCommittedRef.current = html;
-              onChange(html);
+            const sel = window.getSelection();
+            if (sel && sel.rangeCount > 0) {
+              const range = sel.getRangeAt(0);
+              range.deleteContents();
+              const br = document.createElement("br");
+              range.insertNode(br);
+              range.setStartAfter(br);
+              range.collapse(true);
+              sel.removeAllRanges();
+              sel.addRange(range);
             }
             return;
           }
@@ -294,13 +294,9 @@ onKeyDown={(e) => {
           selection.getRangeAt(0).insertNode(document.createTextNode(text));
           selection.collapseToEnd();
         }}
-onBlur={() => {
+        onBlur={() => {
           setEditing(false);
-          if (divRef.current) {
-            const html = sanitizeHTML(divRef.current.innerHTML);
-            lastCommittedRef.current = html;
-            onChange(html);
-          }
+          commitContent();
         }}
         className={[
           `cursor-text whitespace-pre-wrap text-black outline-none w-full block${isHighlighting ? "" : " transition-all"}`,
@@ -311,7 +307,6 @@ onBlur={() => {
           .filter(Boolean)
           .join(" ")}
         style={isHighlighting ? { transition: 'none' } : undefined}
-        dangerouslySetInnerHTML={{ __html: value || "" }}
       />
 
       {tooltipText && (
