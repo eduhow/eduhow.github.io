@@ -326,7 +326,7 @@ function EditableText({ value, onChange, className = "", isHighlighting = false,
 
 {tooltipText && showTooltip && (
         <div className={`editable-tooltip print:hidden absolute z-50 top-1/2 -translate-y-1/2 ${tooltipSide === "left" ? "right-full mr-2" : "left-full ml-2"} pointer-events-none flex ${tooltipSide === "left" ? "flex-row-reverse" : "flex-row"} items-center`}>
-          <div className={`w-0 h-0 border-t-4 border-b-4 ${tooltipSide === "left" ? "border-r-4 border-l-0 border-t-transparent border-b-transparent border-r-red-600" : "border-l-4 border-r-0 border-t-transparent border-b-transparent border-l-red-600"}`} />
+          <div className={`w-0 h-0 border-t-4 border-b-4 ${tooltipSide === "left" ? "border-l-4 border-r-0 border-t-transparent border-b-transparent border-l-red-600" : "border-r-4 border-l-0 border-t-transparent border-b-transparent border-r-red-600"}`} />
           <div className="bg-red-600 text-white text-xs px-3 py-[10px] text-center shadow-lg rounded-none whitespace-pre-line">
             {tooltipText}
           </div>
