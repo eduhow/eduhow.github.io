@@ -842,7 +842,7 @@ isHighlighting={isHighlighting}
             onChange={onContentChange}
             className="text-sm leading-relaxed"
             isHighlighting={isHighlighting}
-            tooltipText={"Bu bölüme tıklayarak\ndüzenleyebilirsiniz.\nMetni seç,\nCTRL+B = Kalın\nCTRL+I = Yan yazı\nCTRL+M = Yazıyı küçült\nCTRL+L = Yazıyı büyüt\nCTRL+O = Normal yazı"}
+            tooltipText={"Bu bölüme tıklayarak\ndüzenleyebilirsiniz.\nMetni seç,\nCTRL+B = Kalın yazı\nCTRL+I = Yan yazı\nCTRL+M = Yazıyı küçült\nCTRL+L = Yazıyı büyüt\nCTRL+O = Normal yazı"}
             tooltipSide={columnSide === 'left' ? 'left' : 'right'}
           />
         </div>
