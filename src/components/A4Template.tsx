@@ -155,6 +155,7 @@ interface EditableTextProps {
   className?: string;
   isHighlighting?: boolean;
   tooltipText?: string;
+  tooltipSide?: "left" | "right";
 }
 
 // Basit HTML sanitize fonksiyonu (XSS koruması)
@@ -166,7 +167,7 @@ const sanitizeHTML = (html: string): string => {
     .replace(/\son\w+='[^']*'/gi, "");
 };
 
-function EditableText({ value, onChange, className = "", isHighlighting = false, tooltipText }: EditableTextProps) {
+function EditableText({ value, onChange, className = "", isHighlighting = false, tooltipText, tooltipSide = "left" }: EditableTextProps) {
   const [editing, setEditing] = useState(false);
   const divRef = useRef<HTMLDivElement>(null);
   const localEditRef = useRef(false);
@@ -309,9 +310,9 @@ function EditableText({ value, onChange, className = "", isHighlighting = false,
         style={isHighlighting ? { transition: 'none' } : undefined}
       />
 
-      {tooltipText && (
-        <div className="print:hidden absolute z-50 top-full left-1/2 -translate-x-1/2 mt-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none flex flex-col items-center">
-          <div className="w-0 h-0 border-l-4 border-r-4 border-b-4 border-l-transparent border-r-transparent border-b-red-600 shadow-sm" />
+{tooltipText && (
+        <div className={`print:hidden absolute z-50 top-1/2 -translate-y-1/2 ${tooltipSide === "left" ? "right-full mr-2" : "left-full ml-2"} opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none flex ${tooltipSide === "left" ? "flex-row" : "flex-row-reverse"} items-center`}>
+          <div className={`w-0 h-0 border-t-4 border-b-4 ${tooltipSide === "left" ? "border-l-4 border-r-0 border-t-transparent border-b-transparent border-l-red-600" : "border-r-4 border-l-0 border-t-transparent border-b-transparent border-r-red-600"} shadow-sm`} />
           <div className="bg-red-600 text-white text-xs px-3 py-[10px] text-center shadow-lg rounded-none whitespace-pre-line">
             {tooltipText}
           </div>
@@ -693,18 +694,18 @@ function BlockCard({
       </button>
 
       <div className="flex items-center gap-2">
-        <EditableText value={item.text} onChange={onTextChange} className="font-bold text-sm text-black" isHighlighting={isHighlighting} tooltipText={"Tıklayarak düzenleyebilirsiniz"} />
+        <EditableText value={item.text} onChange={onTextChange} className="font-bold text-sm text-black" isHighlighting={isHighlighting} tooltipText={"Tıklayarak düzenleyebilirsiniz"} tooltipSide={columnSide === 'left' ? 'left' : 'right'} />
         <div className="ml-auto shrink-0">
           <EditableText
             value={item.score ?? "Puanı :\u00A0\u00A0\u00A0\u00A0\u00A0"}
             onChange={onScoreChange}
             className="text-xs text-gray-500 font-semibold text-right whitespace-nowrap"
-            isHighlighting={isHighlighting}
+isHighlighting={isHighlighting}
             tooltipText={"Tıklayarak düzenleyebilirsiniz"}
+            tooltipSide={columnSide === 'left' ? 'left' : 'right'}
           />
         </div>
       </div>
-      {/* İçerik Alanı: Resim Varsay (Dinamik Yükseklik) */}
       {item.image ? (
         <div className="relative flex-1">
           {/* Menü - sadece showMenu true olunca görünür */}
@@ -828,6 +829,7 @@ function BlockCard({
             className="text-sm leading-relaxed"
             isHighlighting={isHighlighting}
             tooltipText={"Bu bölüme tıklayarak\ndüzenleyebilirsiniz.\nMetni seç,\nCTRL+B = Kalın\nCTRL+I = Yan yazı\nCTRL+M = Yazıyı küçült\nCTRL+L = Yazıyı büyüt\nCTRL+O = Normal yazı"}
+            tooltipSide={columnSide === 'left' ? 'left' : 'right'}
           />
         </div>
       )}
@@ -1601,12 +1603,13 @@ export default function A4Template() {
             />
 
             <div className="flex-1 flex flex-col items-start gap-1">
-              <EditableText
+<EditableText
                 value={data.headerTitle}
                 onChange={(val) => setData((prev) => ({ ...prev, headerTitle: val }))}
                 className="text-xl font-bold text-black leading-tight w-full"
                 isHighlighting={isHighlighting}
                 tooltipText={"Bu bölüme tıklayarak\ndüzenleyebilirsiniz."}
+                tooltipSide="left"
               />
               <EditableText
                 value={data.headerSchool}
@@ -1614,6 +1617,7 @@ export default function A4Template() {
                 className="text-xl font-semibold text-black leading-tight w-full"
                 isHighlighting={isHighlighting}
                 tooltipText={"Bu bölüme tıklayarak\ndüzenleyebilirsiniz."}
+                tooltipSide="left"
               />
               <div className="flex flex-row w-full mt-1">
                 <span className="w-[50%] text-base font-semibold text-black border-r border-zinc-300 pr-2">
