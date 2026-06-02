@@ -171,6 +171,8 @@ function EditableText({ value, onChange, className = "", isHighlighting = false,
   const [editing, setEditing] = useState(false);
   const divRef = useRef<HTMLDivElement>(null);
   const localEditRef = useRef(false);
+  const [showTooltip, setShowTooltip] = useState(false);
+  const tooltipTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (divRef.current && !editing && !localEditRef.current) {
@@ -219,7 +221,19 @@ function EditableText({ value, onChange, className = "", isHighlighting = false,
   };
 
   return (
-    <div className={`relative group w-full block border border-transparent hover:border-red-600 rounded-none print:border-0 ${isHighlighting ? "" : "transition-colors duration-150"}`} style={isHighlighting ? { transition: 'none' } : undefined}>
+    <div className={`relative group w-full block border border-transparent hover:border-red-600 rounded-none print:border-0 ${isHighlighting ? "" : "transition-colors duration-150"}`} style={isHighlighting ? { transition: 'none' } : undefined}
+      onMouseEnter={() => {
+        if (tooltipText) {
+          setShowTooltip(true);
+          if (tooltipTimerRef.current) clearTimeout(tooltipTimerRef.current);
+          tooltipTimerRef.current = setTimeout(() => setShowTooltip(false), 5000);
+        }
+      }}
+      onMouseLeave={() => {
+        setShowTooltip(false);
+        if (tooltipTimerRef.current) { clearTimeout(tooltipTimerRef.current); tooltipTimerRef.current = null; }
+      }}
+    >
       <div
         ref={divRef}
         contentEditable
@@ -310,9 +324,9 @@ function EditableText({ value, onChange, className = "", isHighlighting = false,
         style={isHighlighting ? { transition: 'none' } : undefined}
       />
 
-{tooltipText && (
-        <div className={`print:hidden absolute z-50 top-1/2 -translate-y-1/2 ${tooltipSide === "left" ? "right-full mr-2" : "left-full ml-2"} opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none flex ${tooltipSide === "left" ? "flex-row" : "flex-row-reverse"} items-center`}>
-          <div className={`w-0 h-0 border-t-4 border-b-4 ${tooltipSide === "left" ? "border-l-4 border-r-0 border-t-transparent border-b-transparent border-l-red-600" : "border-r-4 border-l-0 border-t-transparent border-b-transparent border-r-red-600"} shadow-sm`} />
+{tooltipText && showTooltip && (
+        <div className={`editable-tooltip print:hidden absolute z-50 top-1/2 -translate-y-1/2 ${tooltipSide === "left" ? "right-full mr-2" : "left-full ml-2"} pointer-events-none flex ${tooltipSide === "left" ? "flex-row-reverse" : "flex-row"} items-center`}>
+          <div className={`w-0 h-0 border-t-4 border-b-4 ${tooltipSide === "left" ? "border-r-4 border-l-0 border-t-transparent border-b-transparent border-r-red-600" : "border-l-4 border-r-0 border-t-transparent border-b-transparent border-l-red-600"}`} />
           <div className="bg-red-600 text-white text-xs px-3 py-[10px] text-center shadow-lg rounded-none whitespace-pre-line">
             {tooltipText}
           </div>

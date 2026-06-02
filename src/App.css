@@ -379,17 +379,17 @@ body.pdf-generating .cursor-ns-resize {
 
 /* Kullanici istegi: mt-1 altindaki metin alanlarina ozeel kesikli kenarlik ve hover efekti (SADECE EKRANDA GORUNUR) */
 @media screen {
-  .mt-1 > div > div {
+.mt-1 > div > div:not(.editable-tooltip) {
     border: 2px dashed #cad5e2  !important;
   }
 
-  .mt-1 > div > div:hover {
+  .mt-1 > div > div:hover:not(.editable-tooltip) {
     border: 2px dashed #90a1b9  !important;
   }
 }
 
-.pdf-generating .mt-1 > div > div,
-.preview-mode .mt-1 > div > div {
+.pdf-generating .mt-1 > div > div:not(.editable-tooltip),
+.preview-mode .mt-1 > div > div:not(.editable-tooltip) {
   border: none !important;
 }
 
