@@ -1,4 +1,4 @@
-﻿import * as React from "react";
+import * as React from "react";
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Printer, RotateCcw, Mail, FileDown, Plus, X, KeyRound, Upload, AlertTriangle, Sparkles, Loader2, Edit2, Type, Undo2, Search, MoveHorizontal, MoveVertical } from "lucide-react";
@@ -520,10 +520,13 @@ function CompactImageUploader({ onImageChange, isHighlighting = false, className
   const [tempSrc, setTempSrc] = useState<string>("");
 
   return (
-    <div className={`w-full ${className}`}>
-<div
+    <div
+      className={`relative group w-full block border border-transparent hover:border-red-600 rounded-none print:hidden ${isHighlighting ? "" : "transition-colors duration-150"} ${className}`}
+      style={isHighlighting ? { transition: 'none' } : undefined}
+    >
+      <div
         onClick={() => inputRef.current?.click()}
-        className={`group relative flex flex-col items-center justify-center w-full min-h-[200px] bg-slate-50/50 border-2 border-dashed border-slate-300 hover:border-slate-400 hover:bg-slate-100/50 cursor-pointer ${isHighlighting ? "highlight-active" : "transition-colors duration-150"}`}
+        className={`w-full min-h-[200px] flex flex-col items-center justify-center bg-slate-50/50 border-2 border-dashed border-slate-300 hover:border-slate-400 hover:bg-slate-100/50 cursor-pointer ${isHighlighting ? "highlight-active" : "transition-colors duration-150"}`}
         style={isHighlighting ? { transition: 'none' } : undefined}
       >
         <Button
@@ -536,7 +539,7 @@ function CompactImageUploader({ onImageChange, isHighlighting = false, className
         </Button>
       </div>
 
-<input
+      <input
         type="file"
         accept="image/*"
         ref={inputRef}
@@ -812,27 +815,24 @@ isHighlighting={isHighlighting}
           </div>
         </div>
       ) : item.imageRemoved ? null : (
-        <div className="flex justify-start no-print">
-          <CompactImageUploader 
-            onImageChange={(val, width, height) => {
-              onImageChange(val);
-              if (width && height) {
-                const targetWidth = 343;
-                const safeWidth = width || 1;
-                const safeHeight = height || 160;
-                const proportionalHeight = Math.round((safeHeight / safeWidth) * targetWidth);
-                const optimalHeight = Math.min(proportionalHeight, safeHeight);
-                const finalHeight = Math.min(Math.max(optimalHeight, 80), maxImageHeight);
-                setBlockHeight(finalHeight);
-                onHeightChange(finalHeight);
-              }
-            }} 
-            isHighlighting={isHighlighting} 
-            className="print:hidden" 
-            onImageLoadComplete={() => setShowMenu(true)} 
-          />
-        </div>
-      )}
+     <CompactImageUploader 
+      onImageChange={(val, width, height) => {
+       onImageChange(val);
+       if (width && height) {
+        const targetWidth = 343;
+        const safeWidth = width || 1;
+        const safeHeight = height || 160;
+        const proportionalHeight = Math.round((safeHeight / safeWidth) * targetWidth);
+        const optimalHeight = Math.min(proportionalHeight, safeHeight);
+        const finalHeight = Math.min(Math.max(optimalHeight, 80), maxImageHeight);
+        setBlockHeight(finalHeight);
+        onHeightChange(finalHeight);
+       }
+      }} 
+      isHighlighting={isHighlighting} 
+      onImageLoadComplete={() => setShowMenu(true)} 
+     />
+   )}
 
       {/* Soru İçeriği (Yazı Altta) - Yazıcı/PDF'de sadece metin varsa göster */}
       {item.content && item.content.trim() && (
